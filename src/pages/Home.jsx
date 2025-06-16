@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRestaurants} from "../services/firebaseRestaurantService";
+import { getRestaurants } from "../services/firebaseRestaurantService";
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -8,6 +8,10 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getRestaurants();
+
+      // 🌟 LOG para depuración
+      console.log("🚀 Restaurantes cargados:", data);
+
       setRestaurants(data);
     };
     fetchData();
@@ -28,13 +32,18 @@ function Home() {
 
       <div className="container mx-auto pt-7">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {restaurants.map((resto) => (
-            <div key={resto.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <img src={resto.image || "https://via.placeholder.com/400"} alt={resto.name} />
+          {restaurants.map((restaurant) => (
+            <div key={restaurant.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <img
+  src={restaurant.image || "https://via.placeholder.com/400"}
+  alt={restaurant.name}
+  className="w-full h-48 object-cover"
+/>
+
               <div className="p-4">
-                <h3 className="text-xl font-bold mb-2">{resto.name}</h3>
-                <p className="text-gray-600 mb-2">{resto.description}</p>
-                <p className="text-gray-700"><strong>{resto.address}</strong></p>
+                <h3 className="text-xl font-bold mb-2">{restaurant.name}</h3>
+                <p className="text-gray-600 mb-2">{restaurant.category}</p>
+                <p className="text-gray-700">{restaurant.description}</p>
               </div>
             </div>
           ))}
